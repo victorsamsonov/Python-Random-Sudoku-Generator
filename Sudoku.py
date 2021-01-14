@@ -135,3 +135,14 @@ def generate_random_sudoku():
         empty_box += 1
     show_sudoku(rand_sudoku)
     return rand_sudoku
+
+print('incomplete sudoku\n')
+show_sudoku(sudokus[0])
+print('\ncompleted sudoku\n')
+complete_sudoku(sudokus[0])
+show_sudoku(sudokus[0])
+print('\nrandomly generated sudoku\n')
+s = generate_random_sudoku()
+print('\ncompleted randomly generated sudoku\n')
+complete_sudoku(s)
+show_sudoku(s)
