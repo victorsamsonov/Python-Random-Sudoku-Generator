@@ -3,9 +3,9 @@ import pygame
 screen = pygame.display.set_mode((720, 720))
 # Margins
 # left margin
-lm = 100
+lm = 230
 # top margin
-tm = 120
+tm = 200
 
 
 class Square:
