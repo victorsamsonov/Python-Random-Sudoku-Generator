@@ -4,8 +4,8 @@ from Square import Square
 
 import time
 
-tm = 120
-lm = 100
+tm = 200
+lm = 230
 prev_val = None
 
 
