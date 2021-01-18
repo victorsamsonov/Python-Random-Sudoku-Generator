@@ -9,10 +9,6 @@ class Game(Board):
     pygame.display.set_caption("Victor Samsonov Sudoku")
     # Allows to deselect the boxes
     prev_val = None
-    # left margin
-    lm = 70
-    # top margin
-    tm = 100
 
     def __init__(self):
         pygame.init()
@@ -53,8 +49,8 @@ class Game(Board):
 
         self.window.fill(self.menu_bg_color)
         pygame.draw.circle(self.window, (0, 0, 0, 1), (1015, 50), 30)
-        pygame.draw.rect(self.window, (0, 0, 0, 1), pygame.Rect(985, 50, 60, self.chances * 67.5))
-        pygame.draw.circle(self.window, (0, 0, 0, 1), (1015, int(self.chances * 67.5 + 50)), 30)
+        pygame.draw.rect(self.window, (0, 0, 0, 1), pygame.Rect(985, 50, 60, self.chances * 60))
+        pygame.draw.circle(self.window, (0, 0, 0, 1), (1015, int(self.chances * 60 + 50)), 30)
         fnt = pygame.font.SysFont("comicsans", 55)
         fnt2 = pygame.font.SysFont('comicsans', 70)
         time = fnt.render("Time " + self.format_time(time), 1, (76, 175, 80, 1))
@@ -73,7 +69,7 @@ class Game(Board):
         position2 = []
         # Updates the chances and strikes
         for i in range(self.chances):
-            position2.append((1000, 40 + (i * 50) + lm))
+            position2.append((1000,10 + (i * 50) + lm))
             self.window.blit(chance, position2[i])
         for i in range(self.strikes):
             position.append((1000, 40 + (i * 50) + lm))
@@ -422,3 +418,4 @@ class Game(Board):
 
 g = Game()
 g.state_handler()
+
