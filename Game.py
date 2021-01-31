@@ -72,7 +72,7 @@ class Game(Board):
             position2.append((1000,10 + (i * 50) + lm))
             self.window.blit(chance, position2[i])
         for i in range(self.strikes):
-            position.append((1000, 40 + (i * 50) + lm))
+            position.append((1000, 10 + (i * 50) + lm))
             self.window.blit(error, position[i])
         self.board.render(self.window)
 
@@ -418,4 +418,6 @@ class Game(Board):
 
 g = Game()
 g.state_handler()
+
+
 
