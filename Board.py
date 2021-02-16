@@ -134,8 +134,11 @@ class Board(Square):
         if p[0] - lm < self.w and p[1] - tm < self.h:
             sep = self.sep
             # parsing required to make it more convenient for the square position
+            
             x = int((p[0] + -lm) // sep)
-            y = int((p[1] + -tm) // sep)
+            y = int((p[1] + -tm )// sep)
+            if (y < 0):
+                return None
             return (y, x)
         # clicked out of the specified bounds
         return None
