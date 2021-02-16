@@ -29,19 +29,10 @@ class Game(Board):
         self.key = None
         self.menu_state = True
         # General cursor
-        self.cursor_rect = pygame.font.SysFont("8-BIT-WONDER", 55).render("X", 1, (76, 175, 80, 1))
-        # Current difficulty cursor
-        self.difficulty_cursor_y = self.h // 2 + 60 - 125
-        self.cursor_x = self.w // 2 - 200
-        self.cursor_y = self.h // 2 + 60 - 125
-        self.cursor_state = 's'
-        self.diff_cursor_y = self.cursor_y
-        self.difficulty_cursor_state = '10'
-        self.start_cursor_state = 'm1'
         # avoid multiple menu selections in a row
         self.transition = False
         self.empty = None
-        self.menu_bg_color = (176,190,197 ,1)
+        self.menu_bg_color = (176, 190, 197, 1)
 
     # Renders the window where the game takes place
     def redraw_window(self, time):
@@ -59,7 +50,6 @@ class Game(Board):
         pygame.draw.circle(self.window, (0, 0, 0, 1), (110, 920), 80)
         pygame.draw.circle(self.window, (0, 0, 0, 1), (int(self.w // 1.11), 920), 80)
         pygame.draw.rect(self.window, (0, 0, 0, 1), pygame.Rect(100, 840, 880, 160))
-
         self.window.blit(time, (105, 900))
         self.window.blit(menu, (self.w // 1.65, 900))
         self.window.blit(complete, (260, 120))
@@ -69,7 +59,7 @@ class Game(Board):
         position2 = []
         # Updates the chances and strikes
         for i in range(self.chances):
-            position2.append((1000,10 + (i * 50) + lm))
+            position2.append((1000, 10 + (i * 50) + lm))
             self.window.blit(chance, position2[i])
         for i in range(self.strikes):
             position.append((1000, 10 + (i * 50) + lm))
@@ -79,6 +69,7 @@ class Game(Board):
     # Renders main menu
     def render_menu(self):
         # self.w // 2 x centered
+        pos = pygame.mouse.get_pos()
         y_const = 85
         self.window.fill(self.menu_bg_color)
         fnt = pygame.font.SysFont("8-BIT-WONDER", 85)
@@ -88,21 +79,30 @@ class Game(Board):
         MainMenu = fnt.render("Main Menu ", 1, (255, 255, 255, 255))
         Start = fnt.render("Start ", 1, (255, 255, 255, 255))
         Difficulty = fnt.render("Difficulty ", 1, (255, 255, 255, 255))
-        Info = fnt2.render("Use arrow keys or w/s to navigate and press enter to select", 1, (255, 255, 255, 255))
         Quit = fnt.render("Quit ", 1, (255, 255, 255, 255))
+
+        if (pos[0] > self.w // 2 - 70 and pos[0] < self.w // 2 - 110 + 195) and (
+                pos[1] > self.h // 2 + 85 - 130 and pos[1] < self.h // 2 + 85 - 130 + 60):
+            Start = fnt.render("Start", 1, (76, 175, 80, 1))  # 266 59
+        if (pos[0] > self.w // 2 - 130 and pos[0] < self.w // 2 - 110 + 240) and (
+                pos[1] > self.h // 2 + 2 * 85 - 130 and pos[1] < self.h // 2 + 2 * 85 - 130 + 60):
+            Difficulty = fnt.render("Difficulty", 1, (76, 175, 80, 1))
+        if (pos[0] > self.w // 2 - 67 and pos[0] < self.w // 2 - 110 + 165) and (
+                pos[1] > self.h // 2 + 3 * 85 - 130 and pos[1] < self.h // 2 + 3 * 85 - 130 + 60):
+            Quit = fnt.render("Quit", 1, (76, 175, 80, 1))
         self.window.blit(Sudoku, (self.w // 2 - 105, 40))
         self.window.blit(MainMenu, (self.w // 2 - 130, 125))
         self.window.blit(Start, (self.w // 2 - 70, self.h // 2 + y_const - 130))
         self.window.blit(Difficulty, (self.w // 2 - 130, self.h // 2 + 2 * y_const - 130))
         self.window.blit(Quit, (self.w // 2 - 67, self.h // 2 + 3 * y_const - 130))
-        self.window.blit(self.cursor_rect, (self.cursor_x, self.cursor_y))
-        self.window.blit(Info, (180, self.h / 1.1))
 
     # renders difficulty menu
     def render_difficulty(self):
+        pos = pygame.mouse.get_pos()
         y_const = 85
         self.window.fill(self.menu_bg_color)
         fnt = pygame.font.SysFont("8-BIT-WONDER", 85)
+        MainMenu = fnt.render("Main Menu ", 1, (255, 255, 255, 255))
         Difficulty = fnt.render("Difficulty Menu ", 1, (255, 255, 255, 255))
         if self.chances == 10:
             ten_Chances = fnt.render("10 Chances ", 1, (76, 175, 80, 1))
@@ -116,30 +116,56 @@ class Game(Board):
             three_Chances = fnt.render("3 Chances ", 1, (76, 175, 80, 1))
         else:
             three_Chances = fnt.render("3 Chances ", 1, (255, 255, 255, 255))
-        MainMenu = fnt.render("Main Menu ", 1, (255, 255, 255, 255))
+
+        if (pos[0] > self.w // 2 - 120 and pos[0] < self.w // 2 - 110 + 320) and (
+                pos[1] > self.h // 2 + 85 - 130 and pos[1] < self.h // 2 + 85 - 130 + 60):
+            ten_Chances = fnt.render("10 Chances ", 1, (76, 175, 80, 1))
+        if (pos[0] > self.w // 2 - 120 and pos[0] < self.w // 2 - 110 + 290) and (
+                pos[1] > self.h // 2 + 2 * 85 - 130 and pos[1] < self.h // 2 + 2 * 85 - 130 + 60):
+            six_Chances = fnt.render("6 Chances ", 1, (76, 175, 80, 1))
+        if (pos[0] > self.w // 2 - 120 and pos[0] < self.w // 2 - 110 + 290) and (
+                pos[1] > self.h // 2 + 3 * 85 - 130 and pos[1] < self.h // 2 + 3 * 85 - 130 + 60):
+            three_Chances = fnt.render("3 Chances ", 1, (76, 175, 80, 1))
+        if (pos[0] > self.w // 2 - 120 and pos[0] < self.w // 2 - 110 + 315) and (
+                pos[1] > self.h // 2 + 4 * 85 - 130 and pos[1] < self.h // 2 + 4 * 85 - 130 + 60):
+            MainMenu = fnt.render("Main Menu ", 1, (76, 175, 80, 1))
+
         self.window.blit(Difficulty, (self.w // 2 - 180, 125))
         self.window.blit(ten_Chances, (self.w // 2 - 120, self.h // 2 + y_const - 130))
         self.window.blit(six_Chances, (self.w // 2 - 110, self.h // 2 + 2 * y_const - 130))
         self.window.blit(three_Chances, (self.w // 2 - 110, self.h // 2 + 3 * y_const - 130))
         self.window.blit(MainMenu, (self.w // 2 - 110, self.h // 2 + 4 * y_const - 130))
-        self.window.blit(self.cursor_rect, (self.cursor_x, self.cursor_y))
 
     # renders start
     def render_start(self):
+        pos = pygame.mouse.get_pos()
         y_const = 85
         self.window.fill(self.menu_bg_color)
         fnt = pygame.font.SysFont("8-BIT-WONDER", 85)
-        Select = fnt.render("Select A Map ", 1, (255, 255, 255, 255))
-        map1 = fnt.render("Sudoku 1 ", 1, (255, 255, 255, 255))
-        map2 = fnt.render("Sudoku 2 ", 1, (255, 255, 255, 255))
-        random = fnt.render("Random ", 1, (255, 255, 255, 255))
-        MainMenu = fnt.render("Main Menu ", 1, (255, 255, 255, 255))
+        Select = fnt.render("Select A Map ", 1, (255, 255, 255, 255))  # 378, 60
+        map1 = fnt.render("Sudoku 1 ", 1, (255, 255, 255, 255))  # 266 59
+        map2 = fnt.render("Sudoku 2 ", 1, (255, 255, 255, 255))  # 266 59
+        random = fnt.render("Random ", 1, (255, 255, 255, 255))  # 235 59
+        MainMenu = fnt.render("Main Menu", 1, (255, 255, 255, 255))
+
+        if (pos[0] > self.w // 2 - 110 and pos[0] < self.w // 2 - 110 + 260) and (
+                pos[1] > self.h // 2 + 85 - 130 and pos[1] < self.h // 2 + 85 - 130 + 60):
+            map1 = fnt.render("Sudoku 1 ", 1, (76, 175, 80, 1))  # 266 59
+            # 76, 175, 80, 1)
+        if (pos[0] > self.w // 2 - 110 and pos[0] < self.w // 2 - 110 + 260) and (
+                pos[1] > self.h // 2 + 85 * 2 - 130 and pos[1] < self.h // 2 + 2 * 85 - 130 + 60):
+            map2 = fnt.render("Sudoku 2 ", 1, (76, 175, 80, 1))
+        if (pos[0] > self.w // 2 - 110 and pos[0] < self.w // 2 - 110 + 235) and (
+                pos[1] > self.h // 2 + 85 * 3 - 130 and pos[1] < self.h // 2 + 3 * 85 - 130 + 60):
+            random = fnt.render("Random", 1, (76, 175, 80, 1))
+        if (pos[0] > self.w // 2 - 110 and pos[0] < self.w // 2 - 110 + 310) and (
+                pos[1] > self.h // 2 + 85 * 4 - 130 and pos[1] < self.h // 2 + 4 * 85 - 130 + 60):
+            MainMenu = fnt.render("Main Menu", 1, (76, 175, 80, 1))
         self.window.blit(Select, (self.w // 2 - 150, 125))
         self.window.blit(map1, (self.w // 2 - 110, self.h // 2 + y_const - 130))
         self.window.blit(map2, (self.w // 2 - 110, self.h // 2 + 2 * y_const - 130))
         self.window.blit(random, (self.w // 2 - 110, self.h // 2 + 3 * y_const - 130))
         self.window.blit(MainMenu, (self.w // 2 - 110, self.h // 2 + 4 * y_const - 130))
-        self.window.blit(self.cursor_rect, (self.cursor_x, self.cursor_y))
 
     # Stops all loops
     def close_game(self):
@@ -148,36 +174,6 @@ class Game(Board):
         self.difficulty_state = False
         self.playing = False
         self.start_state = False
-
-    def cursor_position(self):
-        # menu state cursor logic
-        if self.menu_state:
-            if self.cursor_state == 's':
-                self.cursor_y = self.h // 2 + 85 - 125
-            elif self.cursor_state == 'd':
-                self.cursor_y = self.h // 2 + 170 - 125
-            elif self.cursor_state == 'q':
-                self.cursor_y = self.h // 2 + 255 - 125
-        # difficulty state cursor logic
-        elif self.difficulty_state:
-            if self.difficulty_cursor_state == '10':
-                self.cursor_y = self.h // 2 + 85 - 125
-            elif self.difficulty_cursor_state == '6':
-                self.cursor_y = self.h // 2 + 170 - 125
-            elif self.difficulty_cursor_state == '3':
-                self.cursor_y = self.h // 2 + 255 - 125
-            elif self.difficulty_cursor_state == 'mm':
-                self.cursor_y = self.h // 2 + 340 - 125
-        # start state cursor logic
-        elif self.start_state:
-            if self.cursor_state == 'm1':
-                self.cursor_y = self.h // 2 + 85 - 125
-            elif self.cursor_state == 'm2':
-                self.cursor_y = self.h // 2 + 170 - 125
-            elif self.cursor_state == 'r':
-                self.cursor_y = self.h // 2 + 255 - 125
-            elif self.cursor_state == 'mm':
-                self.cursor_y = self.h // 2 + 340 - 125
 
     # Displays time spent in a game
     def format_time(self, secs):
@@ -194,53 +190,12 @@ class Game(Board):
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_RETURN:
                     self.START_KEY = 1
-                # Move the cursor down with w or down key
-                if e.key == pygame.K_DOWN or e.key == pygame.K_s:
-                    if self.menu_state:
-                        if self.cursor_state == 's':
-                            self.cursor_state = 'd'
-                        elif self.cursor_state == 'd':
-                            self.cursor_state = 'q'
-                    elif self.difficulty_state:
-                        if self.difficulty_cursor_state == '10':
-                            self.difficulty_cursor_state = '6'
-                        elif self.difficulty_cursor_state == '6':
-                            self.difficulty_cursor_state = '3'
-                        elif self.difficulty_cursor_state == '3':
-                            self.difficulty_cursor_state = 'mm'
-                    if self.start_state:
-                        if self.cursor_state == 'm1':
-                            self.cursor_state = 'm2'
-                        elif self.cursor_state == 'm2':
-                            self.cursor_state = 'r'
-                        elif self.cursor_state == 'r':
-                            self.cursor_state = 'mm'
-                # Move the cursor up with w or down key
-                if e.key == pygame.K_UP or e.key == pygame.K_w:
-                    if self.menu_state:
-                        if self.cursor_state == 'd':
-                            self.cursor_state = 's'
-                        elif self.cursor_state == 'q':
-                            self.cursor_state = 'd'
-                    elif self.difficulty_state:
-                        if self.difficulty_cursor_state == '6':
-                            self.difficulty_cursor_state = '10'
-                        elif self.difficulty_cursor_state == '3':
-                            self.difficulty_cursor_state = '6'
-                        elif self.difficulty_cursor_state == 'mm':
-                            self.difficulty_cursor_state = '3'
-                    elif self.start_state:
-                        if self.cursor_state == 'm2':
-                            self.cursor_state = 'm1'
-                        elif self.cursor_state == 'r':
-                            self.cursor_state = 'm2'
-                        elif self.cursor_state == 'mm':
-                            self.cursor_state = 'r'
+
                 # Back to menu
                 if e.key == pygame.K_m and self.playing:
                     self.playing = False
                     self.menu_state = True
-                    self.cursor_state = 's'
+
                 # Inserting temporary value handler
                 if e.key == pygame.K_1:
                     self.key = 1
@@ -278,7 +233,7 @@ class Game(Board):
                     # Enter while playing handler
                     if self.playing == True:
                         i, j = self.board.clicked
-                        if self.board.squares[i][j].temp_value != 0:
+                        if self.board.squares[i][j].temp_value != None:
                             if self.board.insert(self.board.squares[i][j].temp_value):
                                 print("Success")
                             else:
@@ -288,87 +243,92 @@ class Game(Board):
                             if self.board.victory_state():
                                 print("Game over")
                                 self.playing = False
-                    # Go into the start menu
-                    elif self.cursor_state == 's':
-                        self.menu_state = False
-                        self.start_state = True
-                        self.transition = True
-                        self.cursor_state = 'm1'
-                    # Go into difficulty menu
-                    elif self.cursor_state == 'd':
-                        self.menu_state = False
-                        self.difficulty_state = True
-                    # Stops the game from running on quit
-                    elif self.cursor_state == 'q':
-                        self.menu_state = False
-                        self.running = False
-                    # Go difficulty menu handling
-                    if self.difficulty_state == True:
-                        if self.difficulty_cursor_state == 'mm':
-                            self.difficulty_state = False
-                            self.menu_state = True
-                            self.cursor_state = 's'
-                            self.difficulty_cursor_state = '6'
-                        elif self.difficulty_cursor_state == '10':
-                            self.chances = 10
-                            self.difficulty_cursor_y = self.difficulty_cursor_y
-                        elif self.difficulty_cursor_state == '6':
-                            self.chances = 6
-                            self.difficulty_cursor_y = self.difficulty_cursor_y
-                        elif self.difficulty_cursor_state == '3':
-                            self.chances = 3
-                            self.difficulty_cursor_y = self.difficulty_cursor_y
-                    # start handler
-                    if self.start_state == True:
-                        if self.cursor_state == 'mm':
-                            self.start_state = False
-                            self.menu_state = True
-                            self.cursor_state = 's'
-                        # Sudoku 1
-                        elif self.cursor_state == 'm1' and self.transition == False:
-                            m1 = [[7, 8, 0, 4, 0, 0, 1, 2, 0],
-                                  [6, 0, 0, 0, 7, 5, 0, 0, 9],
-                                  [0, 0, 0, 6, 0, 1, 0, 7, 8],
-                                  [0, 0, 7, 0, 4, 0, 2, 6, 0],
-                                  [0, 0, 1, 0, 5, 0, 9, 3, 0],
-                                  [9, 0, 4, 0, 6, 0, 0, 0, 5],
-                                  [0, 7, 0, 3, 0, 0, 0, 1, 2],
-                                  [1, 2, 0, 0, 0, 7, 4, 0, 0],
-                                  [0, 4, 9, 2, 0, 6, 0, 0, 7]]
+                        # Go into the start menu
 
-                            self.board = Board(9, 9, 600, 600, m1)
-                            self.empty = self.board.is_empty_game()
-                            self.start_state = False
-                            self.playing = True
-                        # Sudoku 2
-                        elif self.cursor_state == 'm2' and self.transition == False:
-                            m2 = [[8, 1, 0, 0, 3, 0, 0, 2, 7],
-                                  [0, 6, 2, 0, 5, 0, 0, 9, 0],
-                                  [0, 7, 0, 0, 0, 0, 0, 0, 0],
-                                  [0, 9, 0, 6, 0, 0, 1, 0, 0],
-                                  [1, 0, 0, 0, 2, 0, 0, 0, 4],
-                                  [0, 0, 8, 0, 0, 5, 0, 7, 0],
-                                  [0, 0, 0, 0, 0, 0, 0, 8, 0],
-                                  [0, 2, 0, 0, 1, 0, 7, 5, 0],
-                                  [3, 8, 0, 0, 7, 0, 0, 4, 2]]
-
-                            self.board = Board(9, 9, 600, 600, m2)
-                            self.empty = self.board.is_empty_game()
-                            self.start_state = False
-                            self.playing = True
-                            # Random Sudoku
-                        elif self.cursor_state == 'r' and self.transition == False:
-                            self.board = Board(9, 9, 600, 600, generate_random_sudoku())
-                            self.empty = self.board.is_empty_game()
-                            self.start_state = False
-                            self.playing = True
                         self.transition = False
             if e.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
-                clicked = self.board.click(pos)
-                if clicked:
-                    self.board.clicked_handler(clicked[0], clicked[1])
-                    self.key = None
+                if self.playing:
+                    clicked = self.board.click(pos)
+                    if clicked:
+                        self.board.clicked_handler(clicked[0], clicked[1])
+                        self.key = None
+                # (self.w // 2 - 110, self.h // 2 + y_const - 130)
+                if self.menu_state:
+                    if (pos[0] > self.w // 2 - 70 and pos[0] < self.w // 2 - 110 + 195) and (
+                            pos[1] > self.h // 2 + 85 - 130 and pos[1] < self.h // 2 + 85 - 130 + 60):
+                        self.menu_state = False
+                        pos = (0, 0)
+                        self.start_state = True
+                    if (pos[0] > self.w // 2 - 130 and pos[0] < self.w // 2 - 110 + 240) and (
+                            pos[1] > self.h // 2 + 2 * 85 - 130 and pos[1] < self.h // 2 + 2 * 85 - 130 + 60):
+                        self.menu_state = False
+                        pos = (0, 0)
+                        self.difficulty_state = True
+                    if (pos[0] > self.w // 2 - 67 and pos[0] < self.w // 2 - 110 + 165) and (
+                            pos[1] > self.h // 2 + 3 * 85 - 130 and pos[1] < self.h // 2 + 3 * 85 - 130 + 60):
+                        self.menu_state = False
+                        self.running = False
+                if self.difficulty_state:
+                    if (pos[0] > self.w // 2 - 120 and pos[0] < self.w // 2 - 110 + 320) and (
+                            pos[1] > self.h // 2 + 85 - 130 and pos[1] < self.h // 2 + 85 - 130 + 60):
+                        self.chances = 10
+                    if (pos[0] > self.w // 2 - 120 and pos[0] < self.w // 2 - 110 + 290) and (
+                            pos[1] > self.h // 2 + 2 * 85 - 130 and pos[1] < self.h // 2 + 2 * 85 - 130 + 60):
+                        self.chances = 6
+                    if (pos[0] > self.w // 2 - 120 and pos[0] < self.w // 2 - 110 + 290) and (
+                            pos[1] > self.h // 2 + 3 * 85 - 130 and pos[1] < self.h // 2 + 3 * 85 - 130 + 60):
+                        self.chances = 3
+                    if (pos[0] > self.w // 2 - 120 and pos[0] < self.w // 2 - 110 + 315) and (
+                            pos[1] > self.h // 2 + 4 * 85 - 130 and pos[1] < self.h // 2 + 4 * 85 - 130 + 60):
+                        self.difficulty_state = False
+                        self.pos = None
+                        self.menu_state = True
+                if self.start_state:
+                    print(pos)
+                    if (pos[0] > self.w // 2 - 110 and pos[0] < self.w // 2 - 110 + 260) and (
+                            pos[1] > self.h // 2 + 85 - 130 and pos[1] < self.h // 2 + 85 - 130 + 60):
+                        m1 = [[7, 8, 0, 4, 0, 0, 1, 2, 0],
+                              [6, 0, 0, 0, 7, 5, 0, 0, 9],
+                              [0, 0, 0, 6, 0, 1, 0, 7, 8],
+                              [0, 0, 7, 0, 4, 0, 2, 6, 0],
+                              [0, 0, 1, 0, 5, 0, 9, 3, 0],
+                              [9, 0, 4, 0, 6, 0, 0, 0, 5],
+                              [0, 7, 0, 3, 0, 0, 0, 1, 2],
+                              [1, 2, 0, 0, 0, 7, 4, 0, 0],
+                              [0, 4, 9, 2, 0, 6, 0, 0, 7]]
+
+                        self.board = Board(9, 9, 600, 600, m1)
+                        self.empty = self.board.is_empty_game()
+                        self.start_state = False
+                        self.playing = True
+                    if (pos[0] > self.w // 2 - 110 and pos[0] < self.w // 2 - 110 + 260) and (
+                            pos[1] > self.h // 2 + 85 * 2 - 130 and pos[1] < self.h // 2 + 2 * 85 - 130 + 60):
+                        m2 = [[8, 1, 0, 0, 3, 0, 0, 2, 7],
+                              [0, 6, 2, 0, 5, 0, 0, 9, 0],
+                              [0, 7, 0, 0, 0, 0, 0, 0, 0],
+                              [0, 9, 0, 6, 0, 0, 1, 0, 0],
+                              [1, 0, 0, 0, 2, 0, 0, 0, 4],
+                              [0, 0, 8, 0, 0, 5, 0, 7, 0],
+                              [0, 0, 0, 0, 0, 0, 0, 8, 0],
+                              [0, 2, 0, 0, 1, 0, 7, 5, 0],
+                              [3, 8, 0, 0, 7, 0, 0, 4, 2]]
+
+                        self.board = Board(9, 9, 600, 600, m2)
+                        self.empty = self.board.is_empty_game()
+                        self.start_state = False
+                        self.playing = True
+
+                    if (pos[0] > self.w // 2 - 110 and pos[0] < self.w // 2 - 110 + 235) and (
+                            pos[1] > self.h // 2 + 85 * 3 - 130 and pos[1] < self.h // 2 + 3 * 85 - 130 + 60):
+                        self.board = Board(9, 9, 600, 600, generate_random_sudoku())
+                        self.empty = self.board.is_empty_game()
+                        self.start_state = False
+                        self.playing = True
+                    if (pos[0] > self.w // 2 - 110 and pos[0] < self.w // 2 - 110 + 310) and (
+                            pos[1] > self.h // 2 + 85 * 4 - 130 and pos[1] < self.h // 2 + 4 * 85 - 130 + 60):
+                        self.start_state = False
+                        self.menu_state = True
 
     # Manages different states
     def state_handler(self):
@@ -388,7 +348,6 @@ class Game(Board):
                     if self.chances == self.strikes:
                         self.playing = False
                         self.menu_state = True
-                        self.cursor_state = 's'
                         self.strikes = 0
                         pygame.display.update()
                     self.redraw_window(play_time)
@@ -398,26 +357,24 @@ class Game(Board):
                 while self.menu_state:
                     self.render_menu()
                     self.main_event_handler()
-                    self.cursor_position()
+
                     pygame.display.update()
             # Difficulty menu loop
             elif self.difficulty_state:
                 while self.difficulty_state:
                     self.render_difficulty()
                     self.main_event_handler()
-                    self.cursor_position()
+
                     pygame.display.update()
             # Start loop
             elif self.start_state:
                 while self.start_state:
                     self.render_start()
                     self.main_event_handler()
-                    self.cursor_position()
+
                     pygame.display.update()
 
 
 g = Game()
 g.state_handler()
-
-
 
