@@ -1,6 +1,6 @@
 # Python-Random-Sudoku-Generator
 
-I decided to challenge myself and test my python knowledge while at the same time learning a new library (pygame) in order to grow as a programmer/ CS students. I decided to go with a random sudoku generator since I would be able to show that I am able to organize my projects and am comfortable with using python. 
+I decided to challenge myself and test my python knowledge while at the same time learning a new library (pygame) in order to grow as a programmer/ CS student. I decided to go with a random sudoku generator since I would be able to show that I am able to organize my projects and am comfortable with using python. 
 
 The project is Divided into 4 sections:
 
